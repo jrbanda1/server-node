@@ -6,7 +6,14 @@ import cors from 'cors'
 import helmet from 'helmet'
 import pino from 'pino'
 
-const logger = pino()
+const logger = pino({
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: true
+      }
+    }
+   })
 
 const port = parseInt(process.env.PORT, 10) || 3000
 
@@ -22,4 +29,6 @@ app.get('/', (req, res) => {
   res.send({ msg: title })
 })
 
-app.listen(port)
+app.listen(port, () =>
+  logger.info(`Application started at http://localhost:${process.env.PORT}`),
+)
