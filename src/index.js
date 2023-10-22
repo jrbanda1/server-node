@@ -4,6 +4,9 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
+import pino from 'pino'
+
+const logger = pino()
 
 const port = parseInt(process.env.PORT, 10) || 3000
 
@@ -14,6 +17,7 @@ app.use(cors({ origin: process.env.ORIGIN }))
 app.use(helmet())
 
 app.get('/', (req, res) => {
+  logger.info('Inside the root path')
   const title = process.env.TITLE || 'Server'
   res.send({ msg: title })
 })
